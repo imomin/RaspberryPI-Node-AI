@@ -56,9 +56,11 @@ var NLPclassifier = function(config) {
 		classifier.addDocument(['remember','has'], 'remembermy');
 
 		classifier.addDocument('where is my', 'recallmy');
+		classifier.addDocument('where\'s my', 'recallmy');
 		classifier.addDocument('where are my', 'recallmy');
-		//classifier.addDocument('do you know where is my', 'recallmy');
-		//classifier.addDocument('do you know where are my', 'recallmy');
+		classifier.addDocument('do you know where is my', 'recallmy');
+		classifier.addDocument('do you know where\'s my', 'recallmy');
+		classifier.addDocument('do you know where are my', 'recallmy');
 		classifier.addDocument('who has my', 'recallmy');
 
 		classifier.train();

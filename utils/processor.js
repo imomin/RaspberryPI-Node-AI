@@ -1,12 +1,14 @@
 var config = require('../config');
 var Listener =  require('./listener.js');
 var Speaker = require('./speaker.js');
+var Watcher = require('./watcher.js');
 var nlpclassifier = require('../libs/nlpclassifier');
 var classifier = new nlpclassifier(config);
 var plugins = require('../plugins');
 
 var listener = new Listener();
 var speaker = new Speaker();
+var watcher = new Watcher();
 var plugin = new plugins(speaker);
 
 var Processor = function() {
@@ -16,19 +18,19 @@ var Processor = function() {
 	this.stopListening = function () {
 		listener.stop();
 	},
-	this.testContext = function(text) {
-		processText(text);
+	this.startCamera = function(){
+		watcher.start();
 	}
 }
 
 function processText(text){
 	//figure out what is the user asking to do.
-
-	if(!text && text === null) {
+	if(typeof(text) ==='undfined' || text === null || !text || text.length < 1) {
 		speaker.speak("I'm sorry, there seems to be a problem.");
 		return;
 	}
 	var context = classifier.getContext(text);
+	console.log('context ---> ' + context);
 	switch(context) {
 		case 'greeting':
 			plugin.handleGreeting(text);
@@ -72,6 +74,11 @@ listener.on('textReceived', function(text) {
 
 speaker.on('stopSpeaking', function(){
 	listener.listen();
-})
+});
+
+watcher.on('liveStream', function(image){
+	console.log(image);
+});
+
 
 module.exports = Processor;

@@ -17,7 +17,7 @@ var guid = (function() {
   };
 })();
 
-var playSound = function(self) {
+var playSoundUsingFestival = function(self) {
 	var message = _queue.shift();
 	var voice = "kal_diphone";
 	console.log(message);
@@ -39,7 +39,40 @@ var playSound = function(self) {
 			return;
 		}
 		else {
-			playSound();
+			playSoundUsingFestival();
+		}
+	});
+}
+
+var playSoundUsingESpeak = function(self) {
+	console.log(_queue);
+	var message = _queue.shift();
+	console.log(_queue);
+	console.log(message);
+	//male wisper "espeak -s 125 -v en+whisper ''"
+	//female "espeak -v en+f5 -s 160 ''"
+	//Male "espeak -v en -s 160 ''"
+	var cmdArgs = ['-s','160','-v','en+f5', message];
+		
+	var p = spawn('espeak', cmdArgs);
+	//p.stdin.end('(voice_' + voice + ') (SayText "'+ message +'")');
+	p.stdout.on('data', function (data) {
+	  console.log('stdout: ' + data);
+	});
+	p.stderr.on('data', function (data) {
+	  console.log('stderr: ' + data);
+	});
+	p.on('close', function (code) {
+		if (code !== 0) {
+			console.log('ps process exited with code ' + code);
+		}
+		if(_queue.length === 0){
+			self.emit('stopSpeaking');
+			_isSpeaking = false;
+			return;
+		}
+		else {
+			playSoundUsingESpeak();
 		}
 	});
 }
@@ -52,7 +85,7 @@ var Speaker = function() {
 		if(!_isSpeaking){
 			self.emit('startSpeaking');
 			_isSpeaking = true;
-			playSound(self);
+			playSoundUsingESpeak(self);
 		}
 	},
 	this.createAudioFile = function (message) {
