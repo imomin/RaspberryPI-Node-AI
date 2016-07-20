@@ -72,7 +72,7 @@ var playSoundUsingESpeak = function(self) {
 			return;
 		}
 		else {
-			playSoundUsingESpeak();
+			playSoundUsingESpeak(self);
 		}
 	});
 }
