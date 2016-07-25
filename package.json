@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "co": "^4.6.0",
     "natural": "^0.4.0",
     "opencv": "^5.0.0",
     "request": "^2.40.0",

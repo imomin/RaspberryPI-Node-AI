@@ -14,7 +14,7 @@ var plugin = new plugins(speaker);
 
 var Processor = function() {
 	this.startListening = function(){
-		this.startCron();
+		//this.startCron();
 		listener.listen();
 	},
 	this.stopListening = function () {
@@ -24,7 +24,8 @@ var Processor = function() {
 		//watcher.start();
 	},
 	this.startCron = function(){
-		scheduleTask.initialize();
+		scheduleTask.initialize(speaker);
+
 	},
 	this.test = function(){
 		this.startCron();

@@ -1,6 +1,6 @@
 var url = 'mongodb://localhost:27017/Node-AI';
 var taskRunner = require('tasks-runner');
-
+var speaker;
 var scheduleTask = {
 	add:function(data, callback) {
 		var date = new Date();
@@ -25,16 +25,22 @@ var scheduleTaskRunner = {
 	    console.log('Providing processor for task with name: ' + taskName);
 	    switch (taskName) {
 	        case 'reminder':
-	            return function* (data, previousTaskResult, extendedTaskInfo) {
-	                console.log('Passed data during task scheduling: ' + data);
-	                console.log('Result of previous task of the same group: ' + previousTaskResult);
-	                console.log('Extended information about current task: ', extendedTaskInfo);
-	            };
+	            return {
+                    notifyUser: function(data) {
+                    	scheduleTaskRunner.speaker.speak('This is reminder to ' + data.body);
+                    },
+                    run: function* (data, previousTaskResult, extendedTaskInfo) {
+                        this.notifyUser(data);
+                        // console.log('Passed data during task scheduling: ' + data);
+                        // console.log('Result of previous task of the same group: ' + previousTaskResult);
+                        // console.log('Extended information about current task: ' + extendedTaskInfo);
+                    }
+                };
 	        default:
 	            throw new Error('Task processor is not defined for task: ' + taskName);
 	    }
 	},
-	initialize:function(){
+	initialize:function(speaker){
 		taskRunner.connect(url);
 		taskRunner.run({
 		    scanInterval: 60, // 60 seconds
@@ -44,7 +50,7 @@ var scheduleTaskRunner = {
 		}).then(function(){
 		    console.log('First scanning iteration was finished');
 		});
-
+		this.speaker = speaker;
 		//process.on('SIGTERM', taskRunner.stop.bind(taskRunner));
 		//process.on('SIGINT', taskRunner.stop.bind(taskRunner));
 	}

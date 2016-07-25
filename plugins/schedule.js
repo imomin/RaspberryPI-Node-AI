@@ -11,7 +11,7 @@ var schedule = function(speaker){
 				speaker.speak('Due to technical error, reminder not set.');	
 				console.log(err);
 			}
-			speaker.speak('Reminder set for ' + data.body);
+			speaker.speak('Got it!');
 		})
 	}
 }

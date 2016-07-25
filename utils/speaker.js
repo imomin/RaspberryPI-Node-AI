@@ -45,15 +45,11 @@ var playSoundUsingFestival = function(self) {
 }
 
 var playSoundUsingESpeak = function(self) {
-	console.log(_queue);
 	var message = _queue.shift();
-	console.log(_queue);
-	console.log(message);
 	//male wisper "espeak -s 125 -v en+whisper ''"
 	//female "espeak -v en+f5 -s 160 ''"
 	//Male "espeak -v en -s 160 ''"
-	var cmdArgs = ['-s','160','-v','en+f5', message];
-		
+	var cmdArgs = ['-s','140','-v','en+f5', message];
 	var p = spawn('espeak', cmdArgs);
 	//p.stdin.end('(voice_' + voice + ') (SayText "'+ message +'")');
 	p.stdout.on('data', function (data) {
