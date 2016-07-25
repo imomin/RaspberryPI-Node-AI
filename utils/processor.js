@@ -14,7 +14,7 @@ var plugin = new plugins(speaker);
 
 var Processor = function() {
 	this.startListening = function(){
-		//this.startCron();
+		this.startCron();
 		listener.listen();
 	},
 	this.stopListening = function () {
@@ -28,8 +28,7 @@ var Processor = function() {
 
 	},
 	this.test = function(){
-		this.startCron();
-		plugin.handleSchedule('remind me to go to sleep in 1 minute');
+		plugin.handleRemembermy('remind me to go to sleep in 1 minute');
 	}
 }
 

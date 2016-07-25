@@ -97,7 +97,6 @@ module.exports = {
         }
         else if (-1 === this._collections.indexOf(collection) && collection === 'rememberstuffs') {
             // used: sorting
-            console.log('index');
             yield this._createIndex(collection, { entity: 1 }, {name: 'entity_1' });
             // used: sorting
             yield this._createIndex(collection, { possessor: 1 }, {name: 'possessor_1' });
