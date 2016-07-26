@@ -95,11 +95,10 @@ module.exports = {
 
             this._collections.push(collection);
         }
-        else if (-1 === this._collections.indexOf(collection) && collection === 'rememberstuffs') {
+        else if (-1 === this._collections.indexOf(collection) && collection === 'rememberstuff') {
             // used: sorting
+            yield this._createIndex(collection, { createdAt: 1 }, { name: 'createdAt_1' });
             yield this._createIndex(collection, { entity: 1 }, {name: 'entity_1' });
-            // used: sorting
-            yield this._createIndex(collection, { possessor: 1 }, {name: 'possessor_1' });
 
             this._collections.push(collection);
         }
@@ -132,6 +131,11 @@ module.exports = {
         });
     },
 
+    findMyObject: function* (collection, query, callback) {
+        let self = this;
+        yield self.ensureConnection(collection);
+        self._conn.collection(collection).findOne(query, callback);
+    },
     
     addReminderObject: function* (collection, task) {
         yield this.ensureConnection(collection);
