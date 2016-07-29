@@ -13,18 +13,18 @@ var Listener = function() {
 	this.listen = function(){
 		self.emit('startListening');
 
-		// var cmdArgs = ['-d','-b','16','-c','1','-r','16000', audioFileName,'silence','1','0.1','5%','1','1.0','5%','pad','0.5','0.5'];
+		var cmdArgs = ['-d','-b','16','-c','1','-r','16000', audioFileName,'silence','1','0.1','5%','1','1.0','5%','pad','0.5','0.5'];
 		
-		// rec = spawn('sox', cmdArgs);
-		// rec.stdout.setEncoding('binary');
+		rec = spawn('sox', cmdArgs);
+		rec.stdout.setEncoding('binary');
 		
-		// rec.stdout.on('data', function (data) {
-		// 	console.log('Recording %d bytes', data.length);
-		// });
-		// rec.stdout.on('end', function () {
-		// 	self.emit('stoppedListening');
-		// 	processSTT();
-		// });
+		rec.stdout.on('data', function (data) {
+			console.log('Recording %d bytes', data.length);
+		});
+		rec.stdout.on('end', function () {
+			self.emit('stoppedListening');
+			processSTT();
+		});
 	},
 	this.stop = function(){
 		if (typeof rec === 'undefined')
