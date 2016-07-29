@@ -1,5 +1,5 @@
 // this is where we keep track of events.
-var nplReminder = require('../libs/nlpReminderDrop');
+var nlpReminder = require('../libs/nlpReminderDrop');
 var scheduler = require('../libs/scheduleTask').scheduleTask;
 
 var schedule = function(speaker){
