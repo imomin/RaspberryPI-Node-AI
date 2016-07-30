@@ -152,6 +152,15 @@ var facesArr = [{'face':pic1,'imageFormat':pic1Format, 'name':'pic1'},
 
 
 module.exports = {
+	trainRealTime: function(name){
+		trainFace(facesArr[0].face, facesArr[0].imageFormat, name, function(err, data){
+			if(err) {
+				console.log("SERVER LOG: Found Error");
+			}
+			console.log("SERVER LOG: Successfully Added and Trained");
+			console.log(data);
+		});
+	},
 	train: function(){
 		// trainFace(facesArr[0].face, facesArr[0].imageFormat, 'person01', function(err, data){
 		// 	if(err) {
@@ -176,6 +185,7 @@ module.exports = {
 		// 	console.log("SERVER LOG: Successfully Added and Trained");
 		// 	console.log(data);
 		// });
+		
 	},
 	recognize: function(){
 		for (var i = 0; i < facesArr.length; i++) {

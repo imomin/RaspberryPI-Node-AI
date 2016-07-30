@@ -28,7 +28,7 @@ var Listener = function() {
 	},
 	this.stop = function(){
 		if (typeof rec === 'undefined')
-			rec.kill(); // Exit the spawned process, exit gracefully
+			//rec.kill(); // Exit the spawned process, exit gracefully
 		console.log("Stopped listening.");
 		return true;
 	},

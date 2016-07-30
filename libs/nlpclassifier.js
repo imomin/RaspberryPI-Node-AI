@@ -11,6 +11,14 @@ var NLPclassifier = function(config) {
 		classifier.addDocument('hello ' + aiName, 'greeting');
 		classifier.addDocument('good morning ' + aiName, 'greeting');
 
+		classifier.addDocument('where is my', 'recallmy');
+		classifier.addDocument('where\'s my', 'recallmy');
+		classifier.addDocument('where are my', 'recallmy');
+		classifier.addDocument('do you know where is my', 'recallmy');
+		classifier.addDocument('do you know where\'s my', 'recallmy');
+		classifier.addDocument('do you know where are my', 'recallmy');
+		classifier.addDocument('who has my', 'recallmy');
+		
 		classifier.addDocument('remind me to', 'schedule');
 		classifier.addDocument('tell me to', 'schedule');
 		classifier.addDocument(['remind me','minute'], 'schedule');
@@ -55,13 +63,7 @@ var NLPclassifier = function(config) {
 		classifier.addDocument(['remember','are with'], 'remembermy');
 		classifier.addDocument(['remember','has'], 'remembermy');
 
-		classifier.addDocument('where is my', 'recallmy');
-		classifier.addDocument('where\'s my', 'recallmy');
-		classifier.addDocument('where are my', 'recallmy');
-		classifier.addDocument('do you know where is my', 'recallmy');
-		classifier.addDocument('do you know where\'s my', 'recallmy');
-		classifier.addDocument('do you know where are my', 'recallmy');
-		classifier.addDocument('who has my', 'recallmy');
+		
 
 		classifier.train();
 	},

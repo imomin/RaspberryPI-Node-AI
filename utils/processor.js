@@ -1,15 +1,15 @@
 var config = require('../config');
 var Listener =  require('./listener.js');
 var Speaker = require('./speaker.js');
-//var Watcher = require('./watcher.js');
-var nlpclassifier = require('../libs/nlpclassifier');
+var Watcher = require('./watcher.js');
+var nlpclassifier = require('../libs/myNLPclassifier');
 var classifier = new nlpclassifier(config);
 var plugins = require('../plugins');
 var scheduleTask = require('../libs/scheduleTask').scheduleTaskRunner;
 
 var listener = new Listener();
 var speaker = new Speaker();
-//var watcher = new Watcher();
+var watcher = new Watcher();
 var plugin = new plugins(speaker);
 
 var Processor = function() {
@@ -21,7 +21,7 @@ var Processor = function() {
 		listener.stop();
 	},
 	this.startCamera = function(){
-		//watcher.start();
+		watcher.start();
 	},
 	this.startCron = function(){
 		scheduleTask.initialize(speaker);
@@ -35,7 +35,7 @@ var Processor = function() {
 function processText(text){
 	//figure out what is the user asking to do.
 	if(typeof(text) ==='undfined' || text === null || !text || text.length < 1) {
-		speaker.speak("I'm sorry, there seems to be a problem.");
+		speaker.speak("I'm sorry, there seems to be a problem with Google Speach to Text A P I.");
 		return;
 	}
 	var context = classifier.getContext(text);
@@ -52,6 +52,9 @@ function processText(text){
 			break;
 		case 'recallmy':
 			plugin.handleRecallmy(text);
+			break;
+		case 'faceRec':
+			watcher.trainFace(text);
 			break;
 		case 'finder':
 			plugin.handleFinder(text);
@@ -83,6 +86,10 @@ listener.on('textReceived', function(text) {
 
 speaker.on('stopSpeaking', function(){
 	listener.listen();
+});
+
+speaker.on('startSpeaking', function(){
+	listener.stop();
 });
 
 // watcher.on('liveStream', function(image){
