@@ -11,8 +11,9 @@ var lbphFaceRecognizer = cv.FaceRecognizer.createLBPHFaceRecognizer(1,8,8,8,75);
 var eigenFaceRecognizer = cv.FaceRecognizer.createEigenFaceRecognizer(80,100.0);
 var fisherFaceRecognizer = cv.FaceRecognizer.createFisherFaceRecognizer(10);
 
-var Watcher = function() {
+var Watcher = function(speaker) {
 	var self = this;
+	this.speaker = speaker;
 	this.train = false;
 	this.detect = false;
 	this.newPersonName = "";
@@ -35,8 +36,6 @@ var Watcher = function() {
 						var x = faces[i]
 						im.rectangle([x.x, x.y], [x.width, x.height], [109,252,180], 2);
 						if(self.train ===  true) {
-							console.log("Inside training...");
-							var myName = "1234";
 							var ims = im.size();
 					        var im2 = im.roi(x.x, x.y, 124, 124);//x.width, x.height
 							var channels = im2.channels();
@@ -107,14 +106,13 @@ var Watcher = function() {
 		
 	},
 	this.trainFace = function(intro){
-		var regex = "(?:.*name is)\\s(\\w+)";
 		var name = intro.match("(?:.*name is)\\s(\\w+)")[1];
 		this.newPersonName = name;
+		self.speaker.speak('Hello ' + name);
 		this.newPersonId = parseInt(new Date().getTime().toString().substring(9,13));// TEMP ONLY!!!!!
 		this.people[this.newPersonId] = {}
 		this.people[this.newPersonId].name=name;
-		console.log(this.people);
-		setInterval(function() {
+		setTimeout(function() {
 			self.train = true;
 		},100);
 	},

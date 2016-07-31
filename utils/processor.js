@@ -9,7 +9,7 @@ var scheduleTask = require('../libs/scheduleTask').scheduleTaskRunner;
 
 var listener = new Listener();
 var speaker = new Speaker();
-var watcher = new Watcher();
+var watcher = new Watcher(speaker);
 var plugin = new plugins(speaker);
 
 var Processor = function() {
